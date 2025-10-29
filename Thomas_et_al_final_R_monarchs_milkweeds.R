@@ -1,3 +1,6 @@
+# The code below is distributed under the terms of the GNU General Public License, Version 3, June 2007.
+# A copy of the license can be found at https://www.R-project.org/Licenses/
+
 # List the packages to be used
 
 library(tidyverse)
@@ -5,6 +8,7 @@ library(lme4)
 library(car)
 library(emmeans)
 library(jtools)
+library(ggrepel)
 library(wesanderson)
 library(binom)
 
@@ -184,11 +188,11 @@ ggplot() +
             size = 5, color = "black", hjust =1.5, show.legend = FALSE) +
   geom_text(data = subset(field_mean, NIO1==1 & graze_type=='Ungrazed'), aes(x = graze_num, y = milkweeds_ha_field, label = site),
             size = 5, color = "red", hjust =1.5, vjust = -0.2, show.legend = FALSE) +
-  geom_line(data = subset(field_mean,site=='BRO'), aes(x = graze_num, y = milkweeds_ha_field), color = "magenta4") +
-  geom_line(data = subset(field_mean,site=='DUN'), aes(x = graze_num, y = milkweeds_ha_field), color = "blue") +
-  geom_line(data = subset(field_mean,site=='KON'), aes(x = graze_num, y = milkweeds_ha_field), color = "aquamarine3") +
-  geom_line(data = subset(field_mean,site=='PLA'), aes(x = graze_num, y = milkweeds_ha_field), color = "sienna3") +
-  geom_line(data = subset(field_mean,site=='TAL'), aes(x = graze_num, y = milkweeds_ha_field), color = "gold2") +
+  geom_line(data = subset(field_mean,site=='BRO'), aes(x = graze_num, y = milkweeds_ha_field), size = 1.5, color = "magenta4") +
+  geom_line(data = subset(field_mean,site=='DUN'), aes(x = graze_num, y = milkweeds_ha_field), size = 1.5, color = "blue") +
+  geom_line(data = subset(field_mean,site=='KON'), aes(x = graze_num, y = milkweeds_ha_field), size = 1.5, color = "aquamarine3") +
+  geom_line(data = subset(field_mean,site=='PLA'), aes(x = graze_num, y = milkweeds_ha_field), size = 1.5, color = "sienna3") +
+  geom_line(data = subset(field_mean,site=='TAL'), aes(x = graze_num, y = milkweeds_ha_field), size = 1.5, color = "gold2") +
   labs(
     x =NULL,
     y ="Number of milkweed stems per hectare"
@@ -215,17 +219,17 @@ ggplot() +
            stat = "identity", fill = "lightgray", alpha = 0.5, show.legend = FALSE) +
   geom_point(data = subset(field_mean, NIO1==0), aes(x = graze_num, y = monarchs_ha_field),
              size = 3, color = "black", position = position_dodge2(width = 0.01), show.legend = FALSE) +
-  geom_text(data = subset(field_mean, NIO1==0 & graze_type=='Ungrazed'), aes(x = graze_num, y = monarchs_ha_field, label = site),
-            size = 5, color = "black", hjust = 1.5, vjust = -0.5, position = position_dodge2(width = 0.3), show.legend = FALSE) +
+  geom_text_repel(data = subset(field_mean, NIO1==0 & graze_type=='Ungrazed'), aes(x = graze_num, y = monarchs_ha_field, label = site),
+            size = 5, color = "black", hjust = 1.2, vjust = -0.5, show.legend = FALSE) +
 #  geom_point(data = subset(field_mean, NIO1==1), aes(x = graze_num, y = monarchs_ha_field),
 #             size = 3, color = "red", position = position_dodge2(width = 0), show.legend = FALSE) +
-#  geom_text(data = subset(field_mean, NIO1==1 & graze_type=='Ungrazed'), aes(x = graze_num, y = monarchs_ha_field, label = site),
-#            size = 5, color = "red", hjust =1.5, position = position_dodge2(width = 0.7), show.legend = FALSE) +
-  geom_line(data = subset(field_mean,site=='BRO'), aes(x = graze_num, y = monarchs_ha_field), color = "magenta4") +
-  geom_line(data = subset(field_mean,site=='DUN'), aes(x = graze_num, y = monarchs_ha_field), color = "blue") +
-  geom_line(data = subset(field_mean,site=='KON'), aes(x = graze_num, y = monarchs_ha_field), color = "aquamarine3") +
-  geom_line(data = subset(field_mean,site=='PLA'), aes(x = graze_num, y = monarchs_ha_field), color = "sienna3") +
-  geom_line(data = subset(field_mean,site=='TAL'), aes(x = graze_num, y = monarchs_ha_field), color = "gold2") +
+#  geom_text_repel(data = subset(field_mean, NIO1==1 & graze_type=='Ungrazed'), aes(x = graze_num, y = monarchs_ha_field, label = site),
+#            size = 5, color = "red", hjust =1.2, vjust = -0.5, show.legend = FALSE) +
+  geom_line(data = subset(field_mean,site=='BRO'), aes(x = graze_num, y = monarchs_ha_field), size = 1.5, color = "magenta4") +
+  geom_line(data = subset(field_mean,site=='DUN'), aes(x = graze_num, y = monarchs_ha_field), size = 1.5, color = "blue") +
+  geom_line(data = subset(field_mean,site=='KON'), aes(x = graze_num, y = monarchs_ha_field), size = 1.5, color = "aquamarine3") +
+  geom_line(data = subset(field_mean,site=='PLA'), aes(x = graze_num, y = monarchs_ha_field), size = 1.5, color = "sienna3") +
+  geom_line(data = subset(field_mean,site=='TAL'), aes(x = graze_num, y = monarchs_ha_field), size = 1.5, color = "gold2") +
   labs(
     x =NULL,
     y ="Number of juvenile monarchs per hectare"
@@ -251,8 +255,8 @@ com_show_juveniles_graph <- ggplot(data = Grace,
                                 color = factor(graze_type))) +
     geom_smooth(mapping = aes(y = pi.hat),
             color = "black",
-            linewidth = 1) +
-  geom_point(show.legend = FALSE, size = 1.75) +
+            linewidth = 1.5) +
+  geom_point(show.legend = FALSE, size = 2.5) +
   scale_color_manual(values = wes_palette("FantasticFox1")) +
   labs( x = expression(bold(paste("log10(", bolditalic("A. speciosa")," and ", bolditalic("A. syriaca "), "stems per hectare + 1)"))), 
         y = "Number of juvenile monarchs per hectare") +
